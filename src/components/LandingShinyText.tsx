@@ -1,3 +1,4 @@
+"use client"
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +13,8 @@ export async function AnimatedShinyTextDemo() {
         )}
       >
         <AnimatedShinyText className="inline-flex items-center text-zinc-400 justify-center px-4 py-1 transition ease-out hover:text-zinc-400 hover:duration-100 text-xs font-semibold">
-          <span>🎉 Launching Soon</span>
+          <button >🎉 Launching Soon</button>
+
           <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
         </AnimatedShinyText>
       </div>
