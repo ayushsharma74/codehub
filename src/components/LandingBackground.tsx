@@ -14,7 +14,11 @@ export function FlickeringGridRounded() {
         height={800}
         width={3000}
       />
-      <LandingContent />
+      <LandingContent
+        ButtonText="Get Started"
+        HeadingText="Ab DSA hogi easy, bas shuru karo yahin se!"
+        SubHeadingText="Solve 5,000+ Problems from most famous sheets asked in various companies here"
+      />
     </div>
   );
 }
