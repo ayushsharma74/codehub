@@ -15,7 +15,7 @@ const Navbar = () => {
             <Image src={"/coffee-svgrepo-com.svg"} alt='logo' width={25} height={25} />
         </div>
         <div className='text-white'>
-            TODO: ADD GITHUB ICON HERE
+            {/* TODO: ADD GITHUB ICON HERE */}
             <RainbowButton className='flex gap-2 font-medium' > Star on GitHub <Image src={"/star-svgrepo-com.svg"} width={20} height={20} alt='star' /></RainbowButton>
         </div>
     </nav>
