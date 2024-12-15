@@ -1,7 +1,9 @@
-import Image from "next/image";
+import { FlickeringGridRounded } from "@/components/LandingBackground";
 
 export default function Home() {
   return (
-    <h1>main</h1>
+    <main className="bg-black">
+      <FlickeringGridRounded />
+    </main>
   );
 }
