@@ -5,6 +5,7 @@ import { AnimatedShinyTextDemo } from "./LandingShinyText";
 import { RainbowButton } from "./ui/rainbow-button";
 import WordFadeIn from "./ui/word-fade-in";
 import {Roboto} from "next/font/google"
+import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const roboto = Roboto({weight: "500", subsets: ["latin"]})
 
@@ -25,7 +26,7 @@ const LandingContent = (props: Props) => {
       <p className="text-center font-semibold">
         {props.SubHeadingText}
       </p>
-      <RainbowButton className=" rounded-[7px] bg-zinc-60 mt-3 text-lg font-semibold">{props.ButtonText}</RainbowButton>
+      <RainbowButton className=" rounded-[7px] bg-zinc-60 mt-3 text-lg font-semibold"><RegisterLink postLoginRedirectURL="/home">Get Started</RegisterLink></RainbowButton>
     </div>
   );
 };

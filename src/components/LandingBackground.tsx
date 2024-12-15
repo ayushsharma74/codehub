@@ -3,7 +3,7 @@ import LandingContent from "./LandingContent";
 
 export function FlickeringGridRounded() {
   return (
-    <div className="relative size-[640px] rounded-lg w-full bg-background overflow-hidden border">
+    <div className="relative rounded-lg w-full bg-background overflow-hidden border">
       <FlickeringGrid
         className="z-0 relative inset-0 [mask-image:radial-gradient(450px_circle_at_center,white,transparent)]"
         squareSize={4}

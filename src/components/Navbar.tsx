@@ -1,11 +1,6 @@
 import React from 'react'
 import { RainbowButton } from './ui/rainbow-button'
-// import { Star } from 'lucide-react'
-// import Star from " @/public/star-svgrepo-com.svg"
 import Image from 'next/image'
-
-
-
 
 const Navbar = () => {
   return (
