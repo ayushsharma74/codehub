@@ -76,6 +76,10 @@
   z-index: 1;
 }
 
+.spin-none::-webkit-inner-spin-button{
+  display: none;
+}
+
 .rounded-sm{
   border-radius: 0.25rem;
 }
