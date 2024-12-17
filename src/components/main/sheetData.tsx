@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-export default function (): React.ReactNode {
+export default function SheetData (): React.ReactNode {
     const [records, setRecords] = useState<Array<Object>>();
     const [page, setPage] = useState<number>();
     const [limit, setLimit] = useState<number>();
