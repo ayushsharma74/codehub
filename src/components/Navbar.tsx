@@ -2,6 +2,12 @@
 import React from 'react'
 import { RainbowButton } from './ui/rainbow-button'
 import Image from 'next/image'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { AccountSettingsDropdownMenu} from './main/DropdownMenu'
 
 const Navbar = () => {
   return (
@@ -10,9 +16,15 @@ const Navbar = () => {
             <h1 className='font-semibold text-2xl ml-2'>CodeHub</h1>
             <Image src={"/coffee-svgrepo-com.svg"} alt='logo' width={25} height={25} />
         </div>
-        <div className='text-white'>
+        <div className='text-white flex gap-3 items-center'>
             {/* TODO: ADD GITHUB ICON HERE */}
             <RainbowButton className='flex gap-2 font-medium' > Star on GitHub <Image src={"/star-svgrepo-com.svg"} width={20} height={20} alt='star' /></RainbowButton>
+            <AccountSettingsDropdownMenu>
+            <Avatar className='cursor-pointer'>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            </AccountSettingsDropdownMenu>
         </div>
     </nav>
   )

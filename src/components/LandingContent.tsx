@@ -4,6 +4,7 @@ import { RainbowButton } from "./ui/rainbow-button";
 import WordFadeIn from "./ui/word-fade-in";
 import { Roboto } from "next/font/google";
 import Link from "next/link";
+import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/server";
 
 const roboto = Roboto({ weight: "500", subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ const LandingContent = (props: Props) => {
       <p className="text-center font-semibold text-xs md:text-sm lg:text-base">{props.SubHeadingText}</p>
 
       <RainbowButton className=" rounded-[7px] bg-zinc-60 mt-3 text-lg font-semibold">
-        <Link href={"/main"}>{props.ButtonText}</Link>
+        <RegisterLink>{props.ButtonText}</RegisterLink>
       </RainbowButton>
     </div>
   );
