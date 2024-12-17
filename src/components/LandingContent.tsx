@@ -17,7 +17,6 @@ const LandingContent = (props: Props) => {
   return (
     <div className="flex items-center gap-4 justify-center flex-col text-white z-10 absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <AnimatedShinyTextDemo />
-      {/* <h1 className={` ${roboto.className} text-7xl text-center`}>{props.HeadingText}</h1> */}
       <WordFadeIn
         words={props.HeadingText}
         className={` ${roboto.className} text-3xl md:text-5xl lg:text-7xl text-center text-white`}
