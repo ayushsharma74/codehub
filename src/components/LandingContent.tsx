@@ -20,7 +20,7 @@ const LandingContent = (props: Props) => {
       {/* <h1 className={` ${roboto.className} text-7xl text-center`}>{props.HeadingText}</h1> */}
       <WordFadeIn
         words={props.HeadingText}
-        className={` ${roboto.className} text-2xl md:text-5xl lg:text-7xl text-center text-white`}
+        className={` ${roboto.className} text-3xl md:text-5xl lg:text-7xl text-center text-white`}
       />
 
       <p className="text-center font-semibold text-xs md:text-sm lg:text-base">{props.SubHeadingText}</p>
