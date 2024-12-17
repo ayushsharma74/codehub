@@ -1,4 +1,6 @@
-export default (): React.ReactElement => {
+import React from "react"
+
+export default function StatBar (){
     return (
         <div className="w-full max-w-full h-fit flex gap-5 px-2 py-2">
             <div className="glassmorph px-3 py-2 w-full flex flex-col gap-2 justify-center filter border-2 rounded-xl border-gray-800">

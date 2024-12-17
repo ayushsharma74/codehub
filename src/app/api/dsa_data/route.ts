@@ -5,7 +5,6 @@ import { parse } from 'csv-parse/sync';
 import { NextRequest } from 'next/server';
 
 
-// const items = Array.from({ length: 25 }, (_, i) => `Item ${i + 1}`); // Mock data
 
 export async function GET(req: NextRequest) {
     const filePath = path.join(process.cwd(), 'public', "resources", 'dsa_data.csv'); // File path

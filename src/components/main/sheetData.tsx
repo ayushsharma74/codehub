@@ -1,113 +1,168 @@
-"use client"
-import { useEffect, useState } from "react";
-import getSheetData from "../API_CALLS/getSheetData";
+// pages/sheetData.tsx
+"use client";
+import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { FaYoutube } from "react-icons/fa";
-import { Search } from "lucide-react";
+import { FileVideo, Search, SquarePen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-export default function SheetData (): React.ReactNode {
-    const [records, setRecords] = useState<Array<Object>>();
-    const [page, setPage] = useState<number>();
-    const [limit, setLimit] = useState<number>();
-    const [total, setTotal] = useState<number>();
-    console.log(total);
-    
-    const getData = (page?: number, limit?: number): Object => getSheetData(page, limit).then(((data) => {
-        setRecords(data["data"].items);
-        setPage(data["data"].page);
-        setLimit(data["data"].limit);
-        setTotal(data["data"].total);
-        console.log(data["data"]);
-        
-    ; return data })).catch(e => console.log(e));
-    useEffect(() => {
-        getData(page, limit)
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import axios from "axios";
 
-    }, [page, limit]);
-    const handlePage = (e:any) => {
-        let p = e.target.value;
-        console.log("PAGE: ",p);
-        
-        if (p > Math.round(total / limit)) p = Math.round(total / limit);
-        else if (p < 1 || !p) p = 1;
-        setTimeout(() => {
-            setPage(p);
-        }, 1000);
-    }
-    return (
-        <>
-            <div className="w-full flex justify-start gap-4 text-white h-16 glassmorph-lg rounded-lg bg-transparent">
-                <div className="flex items-center w-1/3 px-3" cmdk-input-wrapper="">
-                    <Search className=" h-[2.6rem] rounded-l-sm border-white  text-white py-2 w-10 border-2 shrink-0 opacity-50" />
-                    <Input
-                        className={
-                            "flex h-10 w-full rounded-r-sm bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                        }
-                        placeholder="Search..."
-                    />
-                </div>
-                <ToggleGroup type="single" variant="outline" className="justify-start w-1/2 gap-5">
-                    <ToggleGroupItem value="Company" className="rounded-sm" aria-label="Toggle Company">
-                            Company &lt;&gt;
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="Topic" className="rounded-sm" aria-label="Toggle Topic">
-                            Topic &lt;&gt;
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="Sheet" className="rounded-sm" aria-label="Toggle Sheet">
-                            Sheet &lt;&gt;
-                        </ToggleGroupItem>
-                    <div className="flex justify-between items-center gap-2">
-                        <span className="h-full w-7  hover:bg-slate-700 cursor-pointer flex justify-center text-center border border-zinc-300" onClick={() => { setPage(1); }}>&lt;&lt;</span>
-                        <span className="h-full w-6 hover:bg-slate-700 cursor-pointer flex justify-center text-center border border-zinc-300" onClick={() => { setPage(page < 2 ? 1 : page - 1);  }}>&lt;</span>
-                        <ToggleGroupItem value="1" className="rounded-sm px-0 w-5" aria-label="Toggle Sheet">
-                            <input type="number" className="text-black w-full h-full text-center spin-none" min={1} value={page || 1} max={(Math.round(total || 1 / 25))} name="page" id="page" onChange={handlePage} />
-                        </ToggleGroupItem>
-                        <span className="h-full w-6 hover:bg-slate-700 cursor-pointer flex justify-center text-center border border-zinc-300" onClick={() => { setPage(page > (Math.round(total / limit) - 1) ? Math.round(total / limit) : page + 1); }}>&gt;</span>
-                        <span className="h-full w-7  hover:bg-slate-700 cursor-pointer flex justify-center text-center border border-zinc-300" onClick={() => { setPage(Math.round(total / limit));}}>&gt;&gt;</span>
-
-                    </div>
-                </ToggleGroup>
-            </div>
-        <div className="data grid grid-cols-7 justify-items-center h-fit w-full px-3 gap-4 text-white py-4">
-                    <h2>ID</h2>
-                    <h2>Name</h2>
-                    <h2>Difficulty</h2>
-                    <h2>Topic</h2>
-                    <h2>Companies</h2>
-                    <h2>Acceptance</h2>
-                    <h2>Solution</h2>
-                </div>
-            { records?.map((row: Object, index: number) => (
-                <div key={index} className="data hover:bg-[#fff3] glassmorph grid grid-cols-7 justify-items-start h-fit w-full px-3 gap-4 text-white py-4">
-    
-                    {Object?.values(row).map((value: Object, i: number) => (
-                        i == 0 ?
-                            <h3 key={i} className="id">{row["Question ID"]}</h3>
-                            :
-                            i == 1 ?
-                                <h3 key={i} className="name">{row["Question Title"]}</h3>
-                                :
-                                i == 3 ?
-                                    <h3 key={i} className="difficulty">{row["Difficulty Level"]}</h3>
-                                    :
-                                    i == 4 ?
-                                        <h3 key={i} className="topic">{row["Topic Tagged text"]}</h3>
-                                        :
-                                        i == 5 ?
-                                            <h3 key={i} className="companies">NO YET</h3>
-                                            :
-                                            i == 6 ?
-                                                <h3 key={i} className="acceptance">{row["Success Rate"]}%</h3>
-                                                :
-                                                i == 7 ?
-                                                    <Link key={i} className="solution relative" href={row["YouTube_Link"]} target="_blank"><FaYoutube color="#FF0033" className="youtube-icon" size={30} /></Link>
-                                                    : ""
-                    ))}
-                </div>
-            ))
+interface Item {
+  "Question ID": string;
+  "Question Title": string;
+  "Difficulty Level": string;
+  "Topic Tagged text": string;
+  "Success Rate": string;
+  YouTube_Link: string;
 }
-        </>
-    )
+interface Data {
+  items: Item[];
+  page: number;
+  limit: number;
+  total: number;
+}
+
+export default function SheetData(): React.ReactNode {
+  const [records, setRecords] = useState<Array<Item>>([]);
+  const [page, setPage] = useState<number>(1); //Start from page 1
+  const [limit, setLimit] = useState<number>(25);
+  const [total, setTotal] = useState<number>(0);
+
+  const getData = async () => {
+    try {
+      const res = await axios.get(`/api/dsa_data?page=${page}&limit=${limit}`);
+      console.log(res.data);
+      const data = res.data as Data;
+      setRecords(data.items);
+      setTotal(data.total);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, [page, limit]);
+
+  return (
+    <>
+      <div className="rounded-xl border border-zinc-800">
+        <Select>
+          <SelectTrigger className="w-[180px] text-white ">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent className="text-white bg-black">
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+            <SelectItem value="system">System</SelectItem>
+          </SelectContent>
+        </Select>
+        <Table className=" ">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[50px] text-white border-b border-r border-zinc-800">
+                Status
+              </TableHead>
+              <TableHead className="text-white border-b border-r border-zinc-800">
+                Problem
+              </TableHead>
+              <TableHead className="text-white border-b border-r border-zinc-800 w-[70px]">
+                Article
+              </TableHead>
+              <TableHead className="text-center text-white border-b border-r border-zinc-800 w-[70px]">
+                Video
+              </TableHead>
+              <TableHead className="text-white border-b border-r border-zinc-800">
+                Difficulty
+              </TableHead>
+              <TableHead className="text-white border-b border-zinc-800">
+                Companies
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="font-semibold">
+            {records?.map((item: Item, index: number) => (
+              <TableRow
+                key={index}
+                className="border border-zinc-800 hover:bg-zinc-900"
+              >
+                <TableCell className=" flex mt-1 items-center justify-center text-white">
+                  <Checkbox id={`checkbox-${index}`} />
+                </TableCell>
+                <TableCell className="border border-zinc-800 text-white w-[400px]">
+                  <Link
+                    href={`https://leetcode.com/problems/${item["Question Slug"]}`}
+                  >
+                    {item["Question Title"]}
+                  </Link>
+                </TableCell>
+                <TableCell className="border border-zinc-800 translate-x-3 text-white w-[70px] ">
+                  <SquarePen />
+                </TableCell>
+                <TableCell className=" text-white  flex items-center justify-center">
+                  {" "}
+                  {item.YouTube_Link && (
+                    <Link href={item.YouTube_Link} target="_blank">
+                      <FileVideo />
+                    </Link>
+                  )}
+                </TableCell>
+                <TableCell className="border border-zinc-800 text-white">
+                  {" "}
+                  {item["Difficulty Level"]}{" "}
+                </TableCell>
+                <TableCell className="border border-zinc-800 text-white">
+                  Coming Soon
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="mt-4  flex justify-between items-center gap-2">
+        <button
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+          className="text-white px-7 border border-zinc-800 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-800"
+        >
+          Previous
+        </button>
+        <span className="text-zinc-500">Page: {page}</span>
+        <button
+          onClick={() => setPage(page + 1)}
+          disabled={page >= Math.ceil(total / limit)}
+          className="text-white px-7 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-800 hover:bg-zinc-900 font-semibold "
+        >
+          Next
+        </button>
+      </div>
+    </>
+  );
 }
