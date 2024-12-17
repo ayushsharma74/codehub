@@ -20,12 +20,12 @@ const Navbar = () => {
         <div className='text-white flex gap-3 items-center'>
             {/* TODO: ADD GITHUB ICON HERE */}
             <RainbowButton className='flex gap-2 font-medium px-4' > Star on GitHub <Image src={"/star-svgrepo-com.svg"} width={20} height={20} alt='star' /></RainbowButton>
-            <AccountSettingsDropdownMenu>
+            {/* <AccountSettingsDropdownMenu>
             <Avatar className='cursor-pointer'>
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            </AccountSettingsDropdownMenu>
+            </AccountSettingsDropdownMenu> */}
         </div>
     </nav>
   )
