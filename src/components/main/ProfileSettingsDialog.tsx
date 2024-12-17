@@ -13,6 +13,7 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
+import { LogOut, Settings } from 'lucide-react';
 
 
 const ProfileSettingsDialog = ({children}: {children: React.ReactNode}) => {
