@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import AnimatedShinyText from "@/components/ui/animated-shiny-text";
 
-export async function AnimatedShinyTextDemo() {
+export function AnimatedShinyTextDemo() {
   return (
     <div className="z-10 flex  items-center justify-center">
       <div

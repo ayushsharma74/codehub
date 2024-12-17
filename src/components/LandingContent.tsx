@@ -26,7 +26,7 @@ const LandingContent = (props: Props) => {
       <p className="text-center font-semibold text-xs md:text-sm lg:text-base">{props.SubHeadingText}</p>
 
       <RainbowButton className=" rounded-[7px] bg-zinc-60 mt-3 text-lg font-semibold">
-        <RegisterLink>{props.ButtonText}</RegisterLink>
+        <Link href={"/under-construction"}>{props.ButtonText}</Link>
       </RainbowButton>
     </div>
   );

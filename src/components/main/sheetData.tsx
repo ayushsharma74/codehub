@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 interface Item {
   "Question ID": string;
@@ -54,6 +55,7 @@ export default function SheetData(): React.ReactNode {
   const [page, setPage] = useState<number>(1); //Start from page 1
   const [limit, setLimit] = useState<number>(25);
   const [total, setTotal] = useState<number>(0);
+  const { getUser, isAuthenticated } = getKindeServerSession();
 
   const getData = async () => {
     try {
@@ -70,6 +72,7 @@ export default function SheetData(): React.ReactNode {
   useEffect(() => {
     getData();
   }, [page, limit]);
+
 
   return (
     <>
