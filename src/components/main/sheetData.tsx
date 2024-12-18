@@ -14,15 +14,15 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationEllipsis,
+//   PaginationItem,
+//   PaginationLink,
+//   PaginationNext,
+//   PaginationPrevious,
+// } from "@/components/ui/pagination";
 
 import {
   Select,
@@ -35,6 +35,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ScrollArea } from "../ui/scroll-area";
+import Pagination from "../Pagination";
 
 interface Item {
   "Question ID": string;
@@ -74,18 +75,27 @@ export default function SheetData(): React.ReactNode {
     getData();
   }, [page, limit]);
 
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <>
-    <div className="w-full flex justify-start mb-5 gap-2">
-    <Select>
+      <div className="w-full flex justify-start mb-5 gap-2">
+        <Select>
           <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
             <SelectValue placeholder="Status " />
           </SelectTrigger>
           <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-
-            <SelectItem value="Default" className="cursor-pointer  ">All</SelectItem>
-            <SelectItem value="light" className="cursor-pointer  ">Solved</SelectItem>
-            <SelectItem value="dark" className="cursor-pointer ">Unsolved</SelectItem>
+            <SelectItem value="Default" className="cursor-pointer  ">
+              All
+            </SelectItem>
+            <SelectItem value="light" className="cursor-pointer  ">
+              Solved
+            </SelectItem>
+            <SelectItem value="dark" className="cursor-pointer ">
+              Unsolved
+            </SelectItem>
           </SelectContent>
         </Select>
         <Select>
@@ -93,11 +103,18 @@ export default function SheetData(): React.ReactNode {
             <SelectValue placeholder="Difficulty " />
           </SelectTrigger>
           <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-
-            <SelectItem value="Default" className="cursor-pointer  ">All Difficulties</SelectItem>
-            <SelectItem value="light" className="cursor-pointer  ">Easy</SelectItem>
-            <SelectItem value="dark" className="cursor-pointer ">Medium</SelectItem>
-            <SelectItem value="system" className="cursor-pointer ">Hard</SelectItem>
+            <SelectItem value="Default" className="cursor-pointer  ">
+              All Difficulties
+            </SelectItem>
+            <SelectItem value="light" className="cursor-pointer  ">
+              Easy
+            </SelectItem>
+            <SelectItem value="dark" className="cursor-pointer ">
+              Medium
+            </SelectItem>
+            <SelectItem value="system" className="cursor-pointer ">
+              Hard
+            </SelectItem>
           </SelectContent>
         </Select>
         <Select>
@@ -105,10 +122,13 @@ export default function SheetData(): React.ReactNode {
             <SelectValue placeholder="Company " />
           </SelectTrigger>
           <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-
-            <SelectItem value="Default" className="cursor-pointer  ">All Companies</SelectItem>
+            <SelectItem value="Default" className="cursor-pointer  ">
+              All Companies
+            </SelectItem>
             {/* TODO : COMPANY SORT */}
-            <SelectItem value="light" className="cursor-pointer  ">Easy</SelectItem>
+            <SelectItem value="light" className="cursor-pointer  ">
+              Easy
+            </SelectItem>
           </SelectContent>
         </Select>
         <Select>
@@ -116,15 +136,21 @@ export default function SheetData(): React.ReactNode {
             <SelectValue placeholder="Topic " />
           </SelectTrigger>
           <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-
-            <SelectItem value="Default" className="cursor-pointer  ">All Topics</SelectItem>
-            <SelectItem value="light" className="cursor-pointer  ">Array</SelectItem>
-            <SelectItem value="dark" className="cursor-pointer ">Linked lIst</SelectItem>
-            <SelectItem value="system" className="cursor-pointer ">Two Pointer</SelectItem>
+            <SelectItem value="Default" className="cursor-pointer  ">
+              All Topics
+            </SelectItem>
+            <SelectItem value="light" className="cursor-pointer  ">
+              Array
+            </SelectItem>
+            <SelectItem value="dark" className="cursor-pointer ">
+              Linked lIst
+            </SelectItem>
+            <SelectItem value="system" className="cursor-pointer ">
+              Two Pointer
+            </SelectItem>
           </SelectContent>
         </Select>
-        
-    </div>
+      </div>
       <div className="rounded-xl border border-zinc-800">
         <Table className=" ">
           <TableHeader>
@@ -158,27 +184,27 @@ export default function SheetData(): React.ReactNode {
                 key={index}
                 className="border border-zinc-800 hover:bg-zinc-900 transition-colors duration-300"
               >
-                <TableCell className=" flex mt-1 items-center justify-center text-white">
+                <TableCell className=" flex mt-1 items-center justify-center w-[50px] h-[70px] text-white">
                   <Checkbox id={`checkbox-${index}`} />
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white w-[400px]">
                   <Link
                     href={`${item["url"]}`}
-                    className="hover:text-zinc-400 transition-colors hover:underline"
+                    className="hover:text-zinc-400 transition-colors duration-300 ml-2"
                   >
                     {item["title"]}
                   </Link>
                 </TableCell>
-                <TableCell className="border border-zinc-800 translate-x-3 text-white w-[70px] ">
-                  <Link href={`https://leetcode.com${item["solution_link"]}`}>
+                <TableCell className="border border-zinc-800 translate-x-3 text-white w-[70px]  ">
+                  <Link href={`https://leetcode.com${item["solution_link"]}`} className="hover:text-zinc-400 transition-colors duration-300">
                     <SquarePen />
                   </Link>
                 </TableCell>
                 <TableCell className=" text-white translate-x-3 ">
                   {" "}
                   {item.YouTube_Link && (
-                    <Link href={item.YouTube_Link} target="_blank">
-                      <FileVideo color="red" />
+                    <Link href={item.YouTube_Link} target="_blank" className="hover:text-red-800 text-red-500 transition-colors duration-300">
+                      <FileVideo />
                     </Link>
                   )}
                 </TableCell>
@@ -228,12 +254,7 @@ export default function SheetData(): React.ReactNode {
                     return (
                       <span
                         key={idx}
-                        className="inline-block text-black  px-3 py-[2px] rounded-lg m-1 border text-xs"
-                        style={{
-                          backgroundColor: randomColor,
-                          opacity: 0.8, // Set opacity
-                          border: `2px solid ${randomColor}`, // Add a border using the same color
-                        }}
+                        className="inline-block text-emerald-200 bg-emerald-800 font-semibold px-3 py-[2px] rounded-lg m-1 text-xs"
                       >
                         {topic.trim()}
                       </span>
@@ -241,51 +262,38 @@ export default function SheetData(): React.ReactNode {
                   })}
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white text-center h-[60px]">
-                {item["companies"]?.split(",").map((company, idx) => {
-    // Function to generate a random light color
-    const generateLightColor = () => {
-      const getRandomValue = () => Math.floor(Math.random() * 100) + 100; // Values from 155–255 for light colors
-      return `rgb(${getRandomValue()}, ${getRandomValue()}, ${getRandomValue()})`;
-    };
+                  {item["companies"]?.split(",").map((company, idx) => {
+                    // Function to generate a random light color
+                    const generateLightColor = () => {
+                      const getRandomValue = () =>
+                        Math.floor(Math.random() * 100) + 100; // Values from 155–255 for light colors
+                      return `rgb(${getRandomValue()}, ${getRandomValue()}, ${getRandomValue()})`;
+                    };
 
-    const lightColor = generateLightColor();
+                    const lightColor = generateLightColor();
 
-    return (
-      <span
-        key={idx}
-        className="inline-block px-3 py-[2px] rounded-lg m-1 border text-xs font-semibold"
-        style={{
-          backgroundColor: lightColor, // Light background
-          color: "#333333", // Dark text color (dark gray)
-          border: `1px solid ${lightColor}`, // Add border in the same light color
-        }}
-      >
-        {company.trim()}
-      </span>
-    );
-  })}
+                    return (
+                      <span
+                        key={idx}
+                        className="inline-block px-3 bg-sky-900 text-sky-300 py-[2px] rounded-lg m-1 text-xs font-semibold"
+                      >
+                        {company.trim()}
+                      </span>
+                    );
+                  })}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <div className="mt-4  flex justify-between items-center gap-2">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className="text-white px-7 border border-zinc-800 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-800"
-        >
-          Previous
-        </button>
-        <span className="text-zinc-500">Page: {page}</span>
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={page >= Math.ceil(total / limit)}
-          className="text-white px-7 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-800 hover:bg-zinc-900 font-semibold "
-        >
-          Next
-        </button>
+      <div className="mt-4 flex justify-center items-center">
+         <Pagination
+        currentPage={page}
+        totalPages={Math.ceil(total / limit)}
+        onPageChange={handlePageChange}
+        itemsPerPage={limit}
+        />
       </div>
     </>
   );
