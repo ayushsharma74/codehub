@@ -16,6 +16,7 @@ import {
 import { LogOut, Settings } from "lucide-react";
 import { Suspense } from "react";
 import ProfileSettingsDialog from "./ProfileSettingsDialog";
+import Link from "next/link";
 
 export function AccountSettingsDropdownMenu({
   children,
@@ -30,11 +31,13 @@ export function AccountSettingsDropdownMenu({
           My Account ✨{" "}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup className="text-white fle">
+        <DropdownMenuGroup className="text-white">
+          <Link href={"/profile-settings"}>
             <DropdownMenuItem className="flex gap-3 hover:bg-zinc-900 cursor-pointer mb-2 px-4 py-3">
               <Settings strokeWidth={3} />
               Settings
             </DropdownMenuItem>
+            </Link>
         </DropdownMenuGroup>
         <DropdownMenuGroup></DropdownMenuGroup>
         <DropdownMenuItem className="flex gap-3 items-center hover:bg-zinc-900 cursor-pointer mb-2 px-4 py-3">
