@@ -71,8 +71,8 @@ export default function SheetData(): React.ReactNode {
 
   if (loading) {
     return (
-      <div className="w-screen h-screen container transition-colors flex justify-center items-center">
-        <div className=" w-full h-full animate-pulse bg-zinc-700 rounded-lg" 
+      <div className="w-screen h-screen transition-colors flex justify-center items-center">
+        <div className=" w-full h-full animate-pulse bg-gray-600 rounded-lg" 
         >
         </div>
       </div>

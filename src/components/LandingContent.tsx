@@ -29,7 +29,7 @@ const LandingContent = (props: Props) => {
 
       
       <p className="text-center font-semibold text-xs md:text-sm lg:text-base">
-      Solve <RoughNotation type="box" show={true} color="yellow"> 1,000+ Problems  </RoughNotation> from most famous sheets asked in various companies here
+      Solve <RoughNotation type="box" show={true} color="yellow"> 1,000+ Problems  </RoughNotation> with video solutions asked in various companies here and crack coding interviews at your dream companies<RoughNotation type="underline" show={true} color="yellow"> completely FREE.</RoughNotation> 
         </p>
        
 

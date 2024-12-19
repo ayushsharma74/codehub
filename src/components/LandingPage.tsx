@@ -20,5 +20,6 @@ export function LandingPage() {
         SubHeadingText="Solve 5,000+ Problems from most famous sheets asked in various companies here"
       />
     </div>
+    
   );
 }

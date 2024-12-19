@@ -13,7 +13,7 @@ export function AnimatedShinyTextDemo() {
         )}
       >
         <AnimatedShinyText className="inline-flex items-center text-zinc-400 justify-center px-4 py-1 transition ease-out hover:text-zinc-400 hover:duration-100 text-xs font-semibold">
-          <button >🎉 Launching Soon</button>
+          <button >✨ Introducing Codehub</button>
 
           <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
         </AnimatedShinyText>

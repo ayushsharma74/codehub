@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import {ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton} from '@clerk/nextjs'
+import NextTopLoader from 'nextjs-toploader';
+
 
 
 
@@ -43,6 +45,7 @@ export default function RootLayout({
         </header>
            <Analytics />
            <SpeedInsights />
+           <NextTopLoader color="gray" showSpinner={false}/>
         <Navbar />
         {children}
       </body>

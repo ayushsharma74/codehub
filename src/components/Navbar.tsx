@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AccountSettingsDropdownMenu } from "./main/DropdownMenu";
 import Link from "next/link";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import BlurFade from "./ui/blur-fade";
+import WordFadeIn from "./ui/word-fade-in";
 
 const Navbar = () => {
   return (
@@ -17,7 +19,7 @@ const Navbar = () => {
           alt="logo"
           width={25}
           height={25}
-        />
+          />
       </Link>
       <div className="text-white flex gap-3 items-center">
         {/* TODO: ADD GITHUB ICON HERE */}
