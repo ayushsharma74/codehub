@@ -1,7 +1,7 @@
 import FlickeringGrid from "@/components/ui/flickering-grid";
 import LandingContent from "./LandingContent";
 
-export function FlickeringGridRounded() {
+export function LandingPage() {
   return (
     <div className="relative size-[640px] rounded-lg w-full bg-background overflow-hidden border">
       <FlickeringGrid

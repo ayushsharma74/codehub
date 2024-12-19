@@ -14,28 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-// import {
-//   Pagination,
-//   PaginationContent,
-//   PaginationEllipsis,
-//   PaginationItem,
-//   PaginationLink,
-//   PaginationNext,
-//   PaginationPrevious,
-// } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ScrollArea } from "../ui/scroll-area";
 import Pagination from "../Pagination";
+import SelectionBar from "./SelectionBar";
 
 interface Item {
   "Question ID": string;
@@ -58,16 +44,20 @@ export default function SheetData(): React.ReactNode {
   const [limit, setLimit] = useState<number>(25);
   const [total, setTotal] = useState<number>(0);
   const { getUser, isAuthenticated } = getKindeServerSession();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getData = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(`/api/dsa_data?page=${page}&limit=${limit}`);
       console.log(res.data);
       const data = res.data as Data;
       setRecords(data.items);
       setTotal(data.total);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false);
     }
   };
 
@@ -79,78 +69,19 @@ export default function SheetData(): React.ReactNode {
     setPage(newPage);
   };
 
+  if (loading) {
+    return (
+      <div className="w-screen h-screen container transition-colors flex justify-center items-center">
+        <div className=" w-full h-full animate-pulse bg-zinc-700 rounded-lg" 
+        >
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
-      <div className="w-full flex justify-start mb-5 gap-2">
-        <Select>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
-            <SelectValue placeholder="Status " />
-          </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem value="Default" className="cursor-pointer  ">
-              All
-            </SelectItem>
-            <SelectItem value="light" className="cursor-pointer  ">
-              Solved
-            </SelectItem>
-            <SelectItem value="dark" className="cursor-pointer ">
-              Unsolved
-            </SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
-            <SelectValue placeholder="Difficulty " />
-          </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem value="Default" className="cursor-pointer  ">
-              All Difficulties
-            </SelectItem>
-            <SelectItem value="light" className="cursor-pointer  ">
-              Easy
-            </SelectItem>
-            <SelectItem value="dark" className="cursor-pointer ">
-              Medium
-            </SelectItem>
-            <SelectItem value="system" className="cursor-pointer ">
-              Hard
-            </SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
-            <SelectValue placeholder="Company " />
-          </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem value="Default" className="cursor-pointer  ">
-              All Companies
-            </SelectItem>
-            {/* TODO : COMPANY SORT */}
-            <SelectItem value="light" className="cursor-pointer  ">
-              Easy
-            </SelectItem>
-          </SelectContent>
-        </Select>
-        <Select>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
-            <SelectValue placeholder="Topic " />
-          </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem value="Default" className="cursor-pointer  ">
-              All Topics
-            </SelectItem>
-            <SelectItem value="light" className="cursor-pointer  ">
-              Array
-            </SelectItem>
-            <SelectItem value="dark" className="cursor-pointer ">
-              Linked lIst
-            </SelectItem>
-            <SelectItem value="system" className="cursor-pointer ">
-              Two Pointer
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+   
       <div className="rounded-xl border border-zinc-800">
         <Table className=" ">
           <TableHeader>
