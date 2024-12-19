@@ -21,13 +21,12 @@ const Navbar = () => {
       </Link>
       <div className="text-white flex gap-3 items-center">
         {/* TODO: ADD GITHUB ICON HERE */}
-        <RainbowButton className="flex gap-2 font-medium px-4">
-          {" "}
-          Star on GitHub{" "}
+        <RainbowButton className="flex gap-2 font-seminold h-10 text-sm tracking-wider px-4">
+          Star on GitHub
           <Image
             src={"/star-svgrepo-com.svg"}
-            width={20}
-            height={20}
+            width={17}
+            height={17}
             alt="star"
           />
         </RainbowButton>

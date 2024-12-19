@@ -61,39 +61,46 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
       },
-      animation: {
-        rainbow: 'rainbow var(--speed, 2s) infinite linear',
-        rippling: 'rippling var(--duration) ease-out',
-        'shiny-text': 'shiny-text 8s infinite',
+        animation: {
+          rainbow: 'rainbow var(--speed, 2s) infinite linear',
+          rippling: 'rippling var(--duration) ease-out',
+          'shiny-text': 'shiny-text 8s infinite',
+          'color-change': 'colorChange 5s linear infinite'
+        },
+        keyframes: {
+          rainbow: {
+            '0%': {
+              'background-position': '0%'
+            },
+            '100%': {
+              'background-position': '200%'
+            }
+          },
+          rippling: {
+            '0%': {
+              opacity: '1'
+            },
+            '100%': {
+              transform: 'scale(2)',
+              opacity: '0'
+            }
+          },
+          'shiny-text': {
+            '0%, 90%, 100%': {
+              'background-position': 'calc(-100% - var(--shiny-width)) 0'
+            },
+            '30%, 60%': {
+              'background-position': 'calc(100% + var(--shiny-width)) 0'
+            }
+          },
+          colorChange: { 
+            '0%, 100%': { color: '#ff0000' },
+            '25%': { color: '#00ff00' },
+            '50%': { color: '#0000ff' },
+            '75%': { color: '#ffff00' },
+          },
+        }
       },
-      keyframes: {
-        rainbow: {
-          '0%': {
-            'background-position': '0%'
-          },
-          '100%': {
-            'background-position': '200%'
-          }
-        },
-        rippling: {
-          '0%': {
-            opacity: '1'
-          },
-          '100%': {
-            transform: 'scale(2)',
-            opacity: '0'
-          }
-        },
-        'shiny-text': {
-          '0%, 90%, 100%': {
-            'background-position': 'calc(-100% - var(--shiny-width)) 0'
-          },
-          '30%, 60%': {
-            'background-position': 'calc(100% + var(--shiny-width)) 0'
-          }
-        },
-      }
-    }
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

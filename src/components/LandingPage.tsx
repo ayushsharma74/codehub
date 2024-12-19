@@ -4,7 +4,7 @@ import LandingContent from "./LandingContent";
 export function LandingPage() {
   return (
     <div className="relative size-[640px] rounded-lg w-full bg-background overflow-hidden border">
-      <FlickeringGrid
+      {/* <FlickeringGrid
         className="z-0 relative inset-0 [mask-image:radial-gradient(450px_circle_at_center,white,transparent)]"
         squareSize={4}
         gridGap={6}
@@ -13,7 +13,7 @@ export function LandingPage() {
         flickerChance={0.1}
         height={800}
         width={3000}
-      />
+      /> */}
       <LandingContent
         ButtonText="Get Started"
         HeadingText="Ab DSA hoga easy, bas शुरू karo yaha se!"

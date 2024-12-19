@@ -5,6 +5,10 @@ import WordFadeIn from "./ui/word-fade-in";
 import { Roboto } from "next/font/google";
 import Link from "next/link";
 import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/server";
+import Button from "./GetStartedButton";
+import { annotate } from 'rough-notation';
+import { RoughNotation, RoughNotationGroup } from "react-rough-notation";
+
 
 const roboto = Roboto({ weight: "500", subsets: ["latin"] });
 
@@ -23,10 +27,16 @@ const LandingContent = (props: Props) => {
         className={` ${roboto.className} text-3xl md:text-5xl lg:text-7xl text-center text-white`}
       />
 
-      <p className="text-center font-semibold text-xs md:text-sm lg:text-base">{props.SubHeadingText}</p>
+      
+      <p className="text-center font-semibold text-xs md:text-sm lg:text-base">
+      Solve <RoughNotation type="box" show={true} color="yellow"> 1,000+ Problems  </RoughNotation> from most famous sheets asked in various companies here
+        </p>
+       
 
-      <RainbowButton className=" rounded-[7px] bg-zinc-60 mt-3 text-lg font-semibold">
-        <Link href={"/main"}>{props.ButtonText}</Link>
+      <RainbowButton className=" rounded-[7px] mt-3 text-lg text-black font-semibold hover:animate-color-change" style={{ padding: "10px 20px" , background: "#d3dbd5"}}>
+        {/* <Button ></Button> */}
+         <Link href={"/main"}>{props.ButtonText}</Link>
+        {/* </Button> */}
       </RainbowButton>
     </div>
   );
