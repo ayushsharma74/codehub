@@ -1,11 +1,8 @@
 // pages/sheetData.tsx
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaYoutube } from "react-icons/fa";
-import { FileVideo, Search, SquarePen } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { FileVideo, SquarePen } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -14,23 +11,31 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { ScrollArea } from "../ui/scroll-area";
 import Pagination from "../Pagination";
-import SelectionBar from "./SelectionBar";
+import { companies, topics } from "@/lib/constants";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { FaSearch } from "react-icons/fa";
 
 interface Item {
-  "Question ID": string;
+    id: string;
   "Question Title": string;
   "Difficulty Level": string;
   "Topic Tagged text": string;
   "Success Rate": string;
   YouTube_Link: string;
 }
+
 interface Data {
   items: Item[];
   page: number;
@@ -38,50 +43,163 @@ interface Data {
   total: number;
 }
 
+interface CheckBoxStatus {
+  [key: string]: boolean; // Use a string index signature to access by question ID
+}
+
 export default function SheetData(): React.ReactNode {
   const [records, setRecords] = useState<Array<Item>>([]);
-  const [page, setPage] = useState<number>(1); //Start from page 1
-  const [limit, setLimit] = useState<number>(25);
+  const [page, setPage] = useState<number>(1);
+  const limit = 25;
   const [total, setTotal] = useState<number>(0);
-  const { getUser, isAuthenticated } = getKindeServerSession();
   const [loading, setLoading] = useState<boolean>(true);
+  const [difficulty, setDifficulty] = useState<string>("default");
+  const [topic, setTopic] = useState<string>("default");
+  const [company, setCompany] = useState<string>("default");
+  const [checkboxes, setCheckboxes] = useState<CheckBoxStatus>({});
+  // const [search, setSearch] = useState<string>("null");
+    
+    useEffect(() => {
+        const storedState = localStorage.getItem('checkboxState');
+        if (storedState) {
+            try {
+                setCheckboxes(JSON.parse(storedState));
+            } catch (error) {
+                console.error("Error parsing checkbox state", error)
+            }
+        }
+    }, []);
+
 
   const getData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/dsa_data?page=${page}&limit=${limit}`);
-      console.log(res.data);
+      const res = await axios.get(
+        `/api/dsa_data?page=${page}&limit=${limit}&difficulty=${difficulty}&topic=${topic}&company=${company}`
+      );
       const data = res.data as Data;
       setRecords(data.items);
       setTotal(data.total);
-      setLoading(false);
+        //Initialize here as the values are available now, only if records are fetched
+        setLoading(false);
+
     } catch (error) {
       console.error("Error fetching data:", error);
       setLoading(false);
     }
   };
+    
+    const initializeCheckboxes = (items: Item[]) => {
+
+         const newCheckboxes: CheckBoxStatus = {...checkboxes};
+        items.forEach((item) => {
+             if(!newCheckboxes[item.id]) {
+                newCheckboxes[item.id] = false;
+             }
+        });
+        setCheckboxes(newCheckboxes);
+    }
+
+    useEffect(() => {
+       if(records.length > 0 ) {
+         initializeCheckboxes(records);
+       }
+    }, [records])
+
+  const handleDifficultyChange = (value: string) => {
+    setDifficulty(value);
+  };
+
+  const handleTopicChange = (value: string) => {
+    setTopic(value);
+  };
+  const handleCompanyChange = (value: string) => {
+    setCompany(value);
+  };
 
   useEffect(() => {
     getData();
-  }, [page, limit]);
+  }, [page, limit, difficulty, topic, company]);
+
+  useEffect(() => {
+    localStorage.setItem('checkboxState', JSON.stringify(checkboxes));
+  }, [checkboxes]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
 
+  const handleCheckedChange = (id: string, checked: boolean) => {
+    setCheckboxes((prevCheckboxes) => ({
+      ...prevCheckboxes,
+      [id]: checked,
+    }));
+  };
+
   if (loading) {
     return (
       <div className="w-screen h-screen transition-colors flex justify-center items-center">
-        <div className=" w-full h-full animate-pulse bg-gray-600 rounded-lg" 
-        >
-        </div>
+        <div className=" w-full h-full animate-pulse bg-gray-600 rounded-lg"></div>
       </div>
-    )
+    );
   }
 
   return (
     <>
-   
+      <div className="w-full flex justify-start mb-5 gap-2">
+        {/* <Input onChange={(e) => setSearch(e.target.value)}  className="border border-zinc-800 rounded-lg text-white" placeholder="Coming Soon...." />
+        <Button onClick={getData} className="bg-black border-zinc-800 border px-3 hover:bg-zinc-800 transition-colors  text-white rounded-lg"><FaSearch /> */}
+        {/* </Button> */}
+        <Select onValueChange={handleDifficultyChange} value={difficulty}>
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
+            <SelectValue placeholder="Difficulty" />
+          </SelectTrigger>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
+            <SelectItem value="default" className="cursor-pointer  ">
+              All Difficulties
+            </SelectItem>
+            <SelectItem value="easy" className="cursor-pointer  ">
+              Easy
+            </SelectItem>
+            <SelectItem value="medium" className="cursor-pointer ">
+              Medium
+            </SelectItem>
+            <SelectItem value="hard" className="cursor-pointer ">
+              Hard
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Select onValueChange={handleCompanyChange} value={company}>
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
+            <SelectValue placeholder="Company " />
+          </SelectTrigger>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
+            <SelectItem value="default" className="cursor-pointer  ">
+              All Companies
+            </SelectItem>
+            {companies.map((company, idx) => (
+              <SelectItem key={idx} value={company} className="cursor-pointer  ">
+                {company}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select onValueChange={handleTopicChange} value={topic}>
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
+            <SelectValue placeholder="Topic" />
+          </SelectTrigger>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
+            <SelectItem key={"default"} value={"default"} className="cursor-pointer  ">
+              All Topics
+            </SelectItem>
+            {topics.map((topic, idx) => (
+              <SelectItem key={idx} value={topic} className="cursor-pointer  ">
+                {topic}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div className="rounded-xl border border-zinc-800">
         <Table className=" ">
           <TableHeader>
@@ -116,7 +234,13 @@ export default function SheetData(): React.ReactNode {
                 className="border border-zinc-800 hover:bg-zinc-900 transition-colors duration-300"
               >
                 <TableCell className=" flex mt-1 items-center justify-center w-[50px] h-[70px] text-white">
-                  <Checkbox id={`checkbox-${index}`} />
+                  <Checkbox
+                    id={`checkbox-${item.id}`}
+                    checked={checkboxes[item.id] || false}
+                    onCheckedChange={(checked: boolean) =>
+                      handleCheckedChange(item.id, checked)
+                    }
+                  />
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white w-[400px]">
                   <Link
@@ -127,14 +251,21 @@ export default function SheetData(): React.ReactNode {
                   </Link>
                 </TableCell>
                 <TableCell className="border border-zinc-800 translate-x-3 text-white w-[70px]  ">
-                  <Link href={`https://leetcode.com${item["solution_link"]}`} className="hover:text-zinc-400 transition-colors duration-300">
+                  <Link
+                    href={`https://leetcode.com${item["solution_link"]}`}
+                    className="hover:text-zinc-400 transition-colors duration-300"
+                  >
                     <SquarePen />
                   </Link>
                 </TableCell>
                 <TableCell className=" text-white translate-x-3 ">
                   {" "}
                   {item.YouTube_Link && (
-                    <Link href={item.YouTube_Link} target="_blank" className="hover:text-red-800 text-red-500 transition-colors duration-300">
+                    <Link
+                      href={item.YouTube_Link}
+                      target="_blank"
+                      className="hover:text-red-800 text-red-500 transition-colors duration-300"
+                    >
                       <FileVideo />
                     </Link>
                   )}
@@ -158,30 +289,6 @@ export default function SheetData(): React.ReactNode {
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white">
                   {item["related_topics"]?.split(",").map((topic, idx) => {
-                    // Generate a random bright color
-                    const generateBrightColor = () => {
-                      let color;
-                      do {
-                        color = `#${Math.floor(
-                          Math.random() * 16777215
-                        ).toString(16)}`;
-                      } while (isDarkColor(color)); // Regenerate if the color is too dark
-                      return color;
-                    };
-
-                    // Function to check if a color is too dark
-                    const isDarkColor = (hex: string) => {
-                      const rgb = parseInt(hex.slice(1), 16); // Convert hex to RGB
-                      const r = (rgb >> 16) & 0xff;
-                      const g = (rgb >> 8) & 0xff;
-                      const b = rgb & 0xff;
-                      // Calculate perceived brightness (simple heuristic)
-                      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-                      return brightness < 128; // Consider it dark if brightness is below 128
-                    };
-
-                    const randomColor = generateBrightColor();
-
                     return (
                       <span
                         key={idx}
@@ -194,15 +301,6 @@ export default function SheetData(): React.ReactNode {
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white text-center h-[60px]">
                   {item["companies"]?.split(",").map((company, idx) => {
-                    // Function to generate a random light color
-                    const generateLightColor = () => {
-                      const getRandomValue = () =>
-                        Math.floor(Math.random() * 100) + 100; // Values from 155–255 for light colors
-                      return `rgb(${getRandomValue()}, ${getRandomValue()}, ${getRandomValue()})`;
-                    };
-
-                    const lightColor = generateLightColor();
-
                     return (
                       <span
                         key={idx}
@@ -219,11 +317,11 @@ export default function SheetData(): React.ReactNode {
         </Table>
       </div>
       <div className="mt-4 flex justify-center items-center">
-         <Pagination
-        currentPage={page}
-        totalPages={Math.ceil(total / limit)}
-        onPageChange={handlePageChange}
-        itemsPerPage={limit}
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(total / limit)}
+          onPageChange={handlePageChange}
+          itemsPerPage={limit}
         />
       </div>
     </>

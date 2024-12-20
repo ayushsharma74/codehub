@@ -1,6 +1,6 @@
 "use client";
 import SheetData from "@/components/main/sheetData";
-import SelectionBar from "@/components/main/SelectionBar";
+// import SelectionBar from "@/components/main/SelectionBar";
 import { FaDiscord, FaGithub, FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ export default function MainPage(): React.ReactNode {
   return (
     <main className="w-[100vw] h-fit pt-7 bg-black  ">
       <div className=" w-full h-full bg-black rounded-lg pb-5">
-        <SelectionBar />
+        {/* <SelectionBar /> */}
           <SheetData />
           <div className="mt-40 mx-3">
         <div className="flex bg-black w-full h-auto justify-between">
