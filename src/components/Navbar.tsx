@@ -2,12 +2,9 @@
 import React from "react";
 import { RainbowButton } from "./ui/rainbow-button";
 import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AccountSettingsDropdownMenu } from "./main/DropdownMenu";
 import Link from "next/link";
 import { SignedIn, UserButton } from "@clerk/nextjs";
-import BlurFade from "./ui/blur-fade";
-import WordFadeIn from "./ui/word-fade-in";
 
 const Navbar = () => {
   return (
@@ -23,6 +20,7 @@ const Navbar = () => {
       </Link>
       <div className="text-white flex gap-3 items-center">
         {/* TODO: ADD GITHUB ICON HERE */}
+        <Link href={"https://github.com/ayushsharma74/codehub"}>
         <RainbowButton className="flex gap-2 font-seminold h-10 text-sm tracking-wider px-4">
           Star on GitHub
           <Image
@@ -32,6 +30,7 @@ const Navbar = () => {
             alt="star"
           />
         </RainbowButton>
+        </Link>
         <AccountSettingsDropdownMenu>
           <SignedIn>
               <UserButton />

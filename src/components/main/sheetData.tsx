@@ -151,49 +151,61 @@ export default function SheetData(): React.ReactNode {
         <Button onClick={getData} className="bg-black border-zinc-800 border px-3 hover:bg-zinc-800 transition-colors  text-white rounded-lg"><FaSearch /> */}
         {/* </Button> */}
         <Select onValueChange={handleDifficultyChange} value={difficulty}>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg font-semibold ">
             <SelectValue placeholder="Difficulty" />
           </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem value="default" className="cursor-pointer  ">
-              All Difficulties
-            </SelectItem>
-            <SelectItem value="easy" className="cursor-pointer  ">
-              Easy
-            </SelectItem>
-            <SelectItem value="medium" className="cursor-pointer ">
-              Medium
-            </SelectItem>
-            <SelectItem value="hard" className="cursor-pointer ">
-              Hard
-            </SelectItem>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg font-semibold">
+          <SelectItem 
+          value="default" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900 transition-colors duration-300"
+        >
+          All Difficulties
+        </SelectItem>
+        <SelectItem 
+          value="easy" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900 transition-colors duration-300"
+        >
+          Easy
+        </SelectItem>
+        <SelectItem 
+          value="medium" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900 transition-colors duration-300"
+        >
+          Medium
+        </SelectItem>
+        <SelectItem 
+          value="hard" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900"
+        >
+          Hard
+        </SelectItem>
           </SelectContent>
         </Select>
         <Select onValueChange={handleCompanyChange} value={company}>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg font-semibold">
             <SelectValue placeholder="Company " />
           </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem value="default" className="cursor-pointer  ">
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg font-semibold">
+            <SelectItem value="default" className="cursor-pointer  data-[highlighted]:bg-zinc-900    ">
               All Companies
             </SelectItem>
             {companies.map((company, idx) => (
-              <SelectItem key={idx} value={company} className="cursor-pointer  ">
+              <SelectItem key={idx} value={company} className="cursor-pointer   data-[highlighted]:bg-zinc-900   ">
                 {company}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
         <Select onValueChange={handleTopicChange} value={topic}>
-          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg ">
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg font-semibold ">
             <SelectValue placeholder="Topic" />
           </SelectTrigger>
-          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg">
-            <SelectItem key={"default"} value={"default"} className="cursor-pointer  ">
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg font-semibold">
+            <SelectItem key={"default"} value={"default"} className="cursor-pointer data-[highlighted]:bg-zinc-900  ">
               All Topics
             </SelectItem>
             {topics.map((topic, idx) => (
-              <SelectItem key={idx} value={topic} className="cursor-pointer  ">
+              <SelectItem key={idx} value={topic} className="cursor-pointer data-[highlighted]:bg-zinc-900  ">
                 {topic}
               </SelectItem>
             ))}
