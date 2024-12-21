@@ -39,7 +39,7 @@ export default function Home() {
                 target="_blank"
               >
                 {" "}
-                @ayush{" "}
+                ayush{" "}
               </Link>
             </h1>
             <div className="text-2xl font-semibold text-white flex gap-3 mr-2 mb-2">

@@ -2,10 +2,8 @@
 import React from "react";
 import { RainbowButton } from "./ui/rainbow-button";
 import Image from "next/image";
-import { AccountSettingsDropdownMenu } from "./main/DropdownMenu";
 import Link from "next/link";
 import { SignedIn, UserButton } from "@clerk/nextjs";
-
 
 const Navbar = () => {
   return (
@@ -17,26 +15,25 @@ const Navbar = () => {
           alt="logo"
           width={25}
           height={25}
-          />
+        />
       </Link>
       <div className="text-white flex gap-3 items-center">
-        {/* TODO: ADD GITHUB ICON HERE */}
         <Link href={"https://github.com/ayushsharma74/codehub"}>
-        <RainbowButton className={` flex gap-2 font-seminold h-10 text-sm tracking-wider px-4`}>
-          Star on GitHub
-          <Image
-            src={"/star-svgrepo-com.svg"}
-            width={17}
-            height={17}
-            alt="star"
-          />
-        </RainbowButton>
+          <RainbowButton
+            className={` flex gap-2 font-seminold h-10 text-sm tracking-wider px-4`}
+          >
+            Star on GitHub
+            <Image
+              src={"/star-svgrepo-com.svg"}
+              width={17}
+              height={17}
+              alt="star"
+            />
+          </RainbowButton>
         </Link>
-        <AccountSettingsDropdownMenu>
-          <SignedIn>
-              <UserButton />
-            </SignedIn>
-        </AccountSettingsDropdownMenu>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
     </nav>
   );

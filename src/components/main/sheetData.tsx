@@ -306,7 +306,7 @@ export default function SheetData(): React.ReactNode {
                         key={idx}
                         className="inline-block text-emerald-200 bg-emerald-800 font-semibold px-3 py-[2px] rounded-lg m-1 text-xs"
                       >
-                        {topic.trim()}
+                        {topic ? topic.trim() : "No Topic"}
                       </span>
                     );
                   })}
@@ -318,7 +318,7 @@ export default function SheetData(): React.ReactNode {
                         key={idx}
                         className="inline-block px-3 bg-sky-900 text-sky-300 py-[2px] rounded-lg m-1 text-xs font-semibold"
                       >
-                        {company.trim()}
+                        {company ? company.trim() : "No Company"}
                       </span>
                     );
                   })}
