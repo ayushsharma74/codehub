@@ -1,5 +1,7 @@
 import React from "react"
 
+
+// Under Development
 export default function StatBar (){
     return (
         <div className="w-full max-w-full h-fit flex gap-5 px-2 py-2">

@@ -1,11 +1,8 @@
 // pages/sheetData.tsx
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { FaYoutube } from "react-icons/fa";
-import { FileVideo, Search, SquarePen } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { FileVideo, SquarePen } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -15,34 +12,30 @@ import {
   TableRow,
 } from "../ui/table";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import Pagination from "../Pagination";
+import { companies, topics } from "@/lib/constants";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { FaSearch } from "react-icons/fa";
 
 interface Item {
-  "Question ID": string;
+    id: string;
   "Question Title": string;
   "Difficulty Level": string;
   "Topic Tagged text": string;
   "Success Rate": string;
   YouTube_Link: string;
 }
+
 interface Data {
   items: Item[];
   page: number;
@@ -50,43 +43,176 @@ interface Data {
   total: number;
 }
 
+interface CheckBoxStatus {
+  [key: string]: boolean; // Use a string index signature to access by question ID
+}
+
 export default function SheetData(): React.ReactNode {
   const [records, setRecords] = useState<Array<Item>>([]);
-  const [page, setPage] = useState<number>(1); //Start from page 1
-  const [limit, setLimit] = useState<number>(25);
+  const [page, setPage] = useState<number>(1);
+  const limit = 25;
   const [total, setTotal] = useState<number>(0);
-  const { getUser, isAuthenticated } = getKindeServerSession();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [difficulty, setDifficulty] = useState<string>("default");
+  const [topic, setTopic] = useState<string>("default");
+  const [company, setCompany] = useState<string>("default");
+  const [checkboxes, setCheckboxes] = useState<CheckBoxStatus>({});
+  // const [search, setSearch] = useState<string>("null");
+    
+    useEffect(() => {
+        const storedState = localStorage.getItem('checkboxState');
+        if (storedState) {
+            try {
+                setCheckboxes(JSON.parse(storedState));
+            } catch (error) {
+                console.error("Error parsing checkbox state", error)
+            }
+        }
+    }, []);
+
 
   const getData = async () => {
     try {
-      const res = await axios.get(`/api/dsa_data?page=${page}&limit=${limit}`);
-      console.log(res.data);
+      setLoading(true);
+      const res = await axios.get(
+        `/api/dsa_data?page=${page}&limit=${limit}&difficulty=${difficulty}&topic=${topic}&company=${company}`
+      );
       const data = res.data as Data;
       setRecords(data.items);
       setTotal(data.total);
+        //Initialize here as the values are available now, only if records are fetched
+        setLoading(false);
+
     } catch (error) {
       console.error("Error fetching data:", error);
+      setLoading(false);
     }
+  };
+    
+    const initializeCheckboxes = (items: Item[]) => {
+
+         const newCheckboxes: CheckBoxStatus = {...checkboxes};
+        items.forEach((item) => {
+             if(!newCheckboxes[item.id]) {
+                newCheckboxes[item.id] = false;
+             }
+        });
+        setCheckboxes(newCheckboxes);
+    }
+
+    useEffect(() => {
+       if(records.length > 0 ) {
+         initializeCheckboxes(records);
+       }
+    }, [records])
+
+  const handleDifficultyChange = (value: string) => {
+    setDifficulty(value);
+  };
+
+  const handleTopicChange = (value: string) => {
+    setTopic(value);
+  };
+  const handleCompanyChange = (value: string) => {
+    setCompany(value);
   };
 
   useEffect(() => {
     getData();
-  }, [page, limit]);
+  }, [page, limit, difficulty, topic, company]);
 
+  useEffect(() => {
+    localStorage.setItem('checkboxState', JSON.stringify(checkboxes));
+  }, [checkboxes]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleCheckedChange = (id: string, checked: boolean) => {
+    setCheckboxes((prevCheckboxes) => ({
+      ...prevCheckboxes,
+      [id]: checked,
+    }));
+  };
+
+  if (loading) {
+    return (
+      <div className="w-screen h-screen transition-colors flex justify-center items-center">
+        <div className=" w-full h-full animate-pulse bg-gray-600 rounded-lg"></div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="rounded-xl border border-zinc-800">
-        <Select>
-          <SelectTrigger className="w-[180px] text-white ">
-            <SelectValue placeholder="Theme" />
+      <div className="w-full flex justify-start mb-5 gap-2">
+        {/* <Input onChange={(e) => setSearch(e.target.value)}  className="border border-zinc-800 rounded-lg text-white" placeholder="Coming Soon...." />
+        <Button onClick={getData} className="bg-black border-zinc-800 border px-3 hover:bg-zinc-800 transition-colors  text-white rounded-lg"><FaSearch /> */}
+        {/* </Button> */}
+        <Select onValueChange={handleDifficultyChange} value={difficulty}>
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg font-semibold ">
+            <SelectValue placeholder="Difficulty" />
           </SelectTrigger>
-          <SelectContent className="text-white bg-black">
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg font-semibold">
+          <SelectItem 
+          value="default" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900 transition-colors duration-300"
+        >
+          All Difficulties
+        </SelectItem>
+        <SelectItem 
+          value="easy" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900 transition-colors duration-300"
+        >
+          Easy
+        </SelectItem>
+        <SelectItem 
+          value="medium" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900 transition-colors duration-300"
+        >
+          Medium
+        </SelectItem>
+        <SelectItem 
+          value="hard" 
+          className="cursor-pointer data-[highlighted]:bg-zinc-900"
+        >
+          Hard
+        </SelectItem>
           </SelectContent>
         </Select>
+        <Select onValueChange={handleCompanyChange} value={company}>
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg font-semibold">
+            <SelectValue placeholder="Company " />
+          </SelectTrigger>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg font-semibold">
+            <SelectItem value="default" className="cursor-pointer  data-[highlighted]:bg-zinc-900    ">
+              All Companies
+            </SelectItem>
+            {companies.map((company, idx) => (
+              <SelectItem key={idx} value={company} className="cursor-pointer   data-[highlighted]:bg-zinc-900   ">
+                {company}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select onValueChange={handleTopicChange} value={topic}>
+          <SelectTrigger className="w-[180px] hover:bg-zinc-800 text-white border border-zinc-800 rounded-lg font-semibold ">
+            <SelectValue placeholder="Topic" />
+          </SelectTrigger>
+          <SelectContent className="text-white border border-zinc-800 bg-black rounded-lg font-semibold">
+            <SelectItem key={"default"} value={"default"} className="cursor-pointer data-[highlighted]:bg-zinc-900  ">
+              All Topics
+            </SelectItem>
+            {topics.map((topic, idx) => (
+              <SelectItem key={idx} value={topic} className="cursor-pointer data-[highlighted]:bg-zinc-900  ">
+                {topic}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="rounded-xl border border-zinc-800">
         <Table className=" ">
           <TableHeader>
             <TableRow>
@@ -96,16 +222,19 @@ export default function SheetData(): React.ReactNode {
               <TableHead className="text-white border-b border-r border-zinc-800">
                 Problem
               </TableHead>
-              <TableHead className="text-white border-b border-r border-zinc-800 w-[70px]">
+              <TableHead className="text-white text-center border-b border-r border-zinc-800 w-[70px]">
                 Article
               </TableHead>
               <TableHead className="text-center text-white border-b border-r border-zinc-800 w-[70px]">
                 Video
               </TableHead>
-              <TableHead className="text-white border-b border-r border-zinc-800">
+              <TableHead className="text-white border-b border-r border-zinc-800 text-center">
                 Difficulty
               </TableHead>
               <TableHead className="text-white border-b border-zinc-800">
+                Topics
+              </TableHead>
+              <TableHead className="text-white border-b border-l text-center border-zinc-800">
                 Companies
               </TableHead>
             </TableRow>
@@ -114,57 +243,98 @@ export default function SheetData(): React.ReactNode {
             {records?.map((item: Item, index: number) => (
               <TableRow
                 key={index}
-                className="border border-zinc-800 hover:bg-zinc-900"
+                className="border border-zinc-800 hover:bg-zinc-900 transition-colors duration-300"
               >
-                <TableCell className=" flex mt-1 items-center justify-center text-white">
-                  <Checkbox id={`checkbox-${index}`} />
+                <TableCell className=" flex mt-1 items-center justify-center w-[50px] h-[70px] text-white">
+                  <Checkbox
+                    id={`checkbox-${item.id}`}
+                    checked={checkboxes[item.id] || false}
+                    onCheckedChange={(checked: boolean) =>
+                      handleCheckedChange(item.id, checked)
+                    }
+                  />
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white w-[400px]">
                   <Link
-                    href={`https://leetcode.com/problems/${item["Question Slug"]}`}
+                    href={`${item["url"]}`}
+                    className="hover:text-zinc-400 transition-colors duration-300 ml-2"
                   >
-                    {item["Question Title"]}
+                    {item["title"]}
                   </Link>
                 </TableCell>
-                <TableCell className="border border-zinc-800 translate-x-3 text-white w-[70px] ">
-                  <SquarePen />
+                <TableCell className="border border-zinc-800 translate-x-3 text-white w-[70px]  ">
+                  <Link
+                    href={`https://leetcode.com${item["solution_link"]}`}
+                    className="hover:text-zinc-400 transition-colors duration-300"
+                  >
+                    <SquarePen />
+                  </Link>
                 </TableCell>
-                <TableCell className=" text-white  flex items-center justify-center">
+                <TableCell className=" text-white translate-x-3 ">
                   {" "}
                   {item.YouTube_Link && (
-                    <Link href={item.YouTube_Link} target="_blank">
+                    <Link
+                      href={item.YouTube_Link}
+                      target="_blank"
+                      className="hover:text-red-800 text-red-500 transition-colors duration-300"
+                    >
                       <FileVideo />
                     </Link>
                   )}
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white">
-                  {" "}
-                  {item["Difficulty Level"]}{" "}
+                  <div className="flex items-center justify-center">
+                    {item["difficulty"] === "Easy" ? (
+                      <span className="text-green-200 rounded-lg bg-green-800 px-3 py-[3px] text-xs font-semibold">
+                        {item["difficulty"]}
+                      </span>
+                    ) : item["difficulty"] === "Medium" ? (
+                      <span className="text-yellow-200 rounded-lg bg-yellow-800 px-3 py-[3px] text-xs font-semibold">
+                        {item["difficulty"]}
+                      </span>
+                    ) : (
+                      <span className="text-red-200 rounded-lg bg-red-800 px-3 py-[3px] text-xs font-semibold">
+                        {item["difficulty"]}
+                      </span>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell className="border border-zinc-800 text-white">
-                  Coming Soon
+                  {item["related_topics"]?.split(",").map((topic, idx) => {
+                    return (
+                      <span
+                        key={idx}
+                        className="inline-block text-emerald-200 bg-emerald-800 font-semibold px-3 py-[2px] rounded-lg m-1 text-xs"
+                      >
+                        {topic ? topic.trim() : "No Topic"}
+                      </span>
+                    );
+                  })}
+                </TableCell>
+                <TableCell className="border border-zinc-800 text-white text-center h-[60px]">
+                  {item["companies"]?.split(",").map((company, idx) => {
+                    return (
+                      <span
+                        key={idx}
+                        className="inline-block px-3 bg-sky-900 text-sky-300 py-[2px] rounded-lg m-1 text-xs font-semibold"
+                      >
+                        {company ? company.trim() : "No Company"}
+                      </span>
+                    );
+                  })}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <div className="mt-4  flex justify-between items-center gap-2">
-        <button
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-          className="text-white px-7 border border-zinc-800 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-800"
-        >
-          Previous
-        </button>
-        <span className="text-zinc-500">Page: {page}</span>
-        <button
-          onClick={() => setPage(page + 1)}
-          disabled={page >= Math.ceil(total / limit)}
-          className="text-white px-7 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed border border-zinc-800 hover:bg-zinc-900 font-semibold "
-        >
-          Next
-        </button>
+      <div className="mt-4 flex justify-center items-center">
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(total / limit)}
+          onPageChange={handlePageChange}
+          itemsPerPage={limit}
+        />
       </div>
     </>
   );

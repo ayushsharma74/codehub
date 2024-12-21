@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 
 export default {
-    darkMode: ["class"],
-    content: [
+  darkMode: ["class"],
+  content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -65,7 +65,10 @@ export default {
   			rainbow: 'rainbow var(--speed, 2s) infinite linear',
   			rippling: 'rippling var(--duration) ease-out',
   			'shiny-text': 'shiny-text 8s infinite',
-  			pulse: 'pulse var(--duration) ease-out infinite'
+  			'color-change': 'colorChange 5s linear infinite',
+  			'background-position-spin': 'background-position-spin 3000ms infinite alternate',
+  			marquee: 'marquee var(--duration) infinite linear',
+  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
   		},
   		keyframes: {
   			rainbow: {
@@ -93,12 +96,42 @@ export default {
   					'background-position': 'calc(100% + var(--shiny-width)) 0'
   				}
   			},
-  			pulse: {
+  			colorChange: {
   				'0%, 100%': {
-  					boxShadow: '0 0 0 0 var(--pulse-color)'
+  					color: '#ff0000'
+  				},
+  				'25%': {
+  					color: '#00ff00'
   				},
   				'50%': {
-  					boxShadow: '0 0 0 8px var(--pulse-color)'
+  					color: '#0000ff'
+  				},
+  				'75%': {
+  					color: '#ffff00'
+  				}
+  			},
+  			'background-position-spin': {
+  				'0%': {
+  					backgroundPosition: 'top center'
+  				},
+  				'100%': {
+  					backgroundPosition: 'bottom center'
+  				}
+  			},
+  			marquee: {
+  				from: {
+  					transform: 'translateX(0)'
+  				},
+  				to: {
+  					transform: 'translateX(calc(-100% - var(--gap)))'
+  				}
+  			},
+  			'marquee-vertical': {
+  				from: {
+  					transform: 'translateY(0)'
+  				},
+  				to: {
+  					transform: 'translateY(calc(-100% - var(--gap)))'
   				}
   			}
   		}
