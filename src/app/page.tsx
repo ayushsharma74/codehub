@@ -31,7 +31,7 @@ export default function Home() {
         </BlurFade>
         <div className="mt-20">
           <div className="flex bg-black w-full h-auto justify-between">
-            <h1 className="text-sm font-semibold text-white ml-3 mb-2">
+            <h1 className="text-xs md:text-sm lg:text-sm font-semibold text-white ml-3 mb-2">
               Developed With प्यार By{" "}
               <Link
                 href={"https://x.com/ayusssshhhhhhh"}

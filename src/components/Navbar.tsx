@@ -6,6 +6,7 @@ import { AccountSettingsDropdownMenu } from "./main/DropdownMenu";
 import Link from "next/link";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 
+
 const Navbar = () => {
   return (
     <nav className="bg-black flex border-b-2 border-zinc-900  justify-between items-center p-2">
@@ -21,7 +22,7 @@ const Navbar = () => {
       <div className="text-white flex gap-3 items-center">
         {/* TODO: ADD GITHUB ICON HERE */}
         <Link href={"https://github.com/ayushsharma74/codehub"}>
-        <RainbowButton className="flex gap-2 font-seminold h-10 text-sm tracking-wider px-4">
+        <RainbowButton className={` flex gap-2 font-seminold h-10 text-sm tracking-wider px-4`}>
           Star on GitHub
           <Image
             src={"/star-svgrepo-com.svg"}
