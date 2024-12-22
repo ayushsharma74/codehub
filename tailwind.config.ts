@@ -68,7 +68,8 @@ export default {
   			'color-change': 'colorChange 5s linear infinite',
   			'background-position-spin': 'background-position-spin 3000ms infinite alternate',
   			marquee: 'marquee var(--duration) infinite linear',
-  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
+  			'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
+			'fadeIn': 'fadeInAnimation 2s ease-in-out'
   		},
   		keyframes: {
   			rainbow: {
@@ -133,7 +134,15 @@ export default {
   				to: {
   					transform: 'translateY(calc(-100% - var(--gap)))'
   				}
-  			}
+  			},
+			'fadeInAnimation' : {
+				'0%' :{
+					opacity: '0'
+				},
+				'100%' :{
+					opacity: '1'
+				}
+			}
   		}
   	}
   },
