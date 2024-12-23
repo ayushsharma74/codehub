@@ -98,12 +98,12 @@ export default function Home() {
               data-conversation="none"
               data-theme="dark"
             >
-              <p lang="hi" dir="ltr">
-                Nice bhai 💯
+              <p lang="en" dir="ltr">
+                Looks great
               </p>
-              &mdash; Vedangi (@Vedangitt){" "}
-              <a href="https://twitter.com/Vedangitt/status/1870443175879598566?ref_src=twsrc%5Etfw">
-                December 21, 2024
+              &mdash; Niraj (@_niraj16){" "}
+              <a href="https://twitter.com/_niraj16/status/1870876416000307631?ref_src=twsrc%5Etfw">
+                December 22, 2024
               </a>
             </blockquote>{" "}
             <script
