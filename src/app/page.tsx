@@ -41,17 +41,16 @@ export default function Home() {
                 data-theme="dark"
               >
                 <p lang="en" dir="ltr">
-                  Wow so good🫶🏼
+                  So helpful thank you ayush its really good
                 </p>
-                &mdash; _blink_forever_ (@blink13915){" "}
-                <a href="https://twitter.com/blink13915/status/1870480182399652249?ref_src=twsrc%5Etfw">
+                &mdash; Maha (@maha_learns){" "}
+                <a href="https://twitter.com/maha_learns/status/1870481280309297475?ref_src=twsrc%5Etfw">
                   December 21, 2024
                 </a>
               </blockquote>{" "}
               <script
                 async
                 src="https://platform.twitter.com/widgets.js"
-                // // charset="utf-8"
               ></script>
               <blockquote
                 className="twitter-tweet"
