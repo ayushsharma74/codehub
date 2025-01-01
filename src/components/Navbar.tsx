@@ -3,7 +3,6 @@ import React from "react";
 import { RainbowButton } from "./ui/rainbow-button";
 import Image from "next/image";
 import Link from "next/link";
-import { SignedIn, UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
@@ -31,9 +30,6 @@ const Navbar = () => {
             />
           </RainbowButton>
         </Link>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
       </div>
     </nav>
   );
